@@ -8,7 +8,7 @@ from app.configs.database import db
 class VaccineCards(db.Model):
     __tablename__ = "vaccine_cards"
 
-    cpf: str = Column(Integer, primary_key=True)
+    cpf: str = Column(String, primary_key=True)
     name: str = Column(String, nullable=False)
     first_shot_date: str = Column(DateTime)
     second_shot_date: str = Column(DateTime)
