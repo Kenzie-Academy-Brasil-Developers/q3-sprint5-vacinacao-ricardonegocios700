@@ -34,17 +34,20 @@ def cpf_checking(cpf) -> list:
 
 
 def data_checking(data) -> list:
-    result = [True, True]
+    result = [True, True] #, ""]
     for v in data.values():
         if type(v) != str:
             result[0] = False
     keys_expected = ["cpf", "name", "vaccine_name", "health_unit_name"]
     keys_received  = [k for k in data.keys()]
+    # não deu certo pq se houver a mais é diferente
+    # result.append(set(keys_expected) == set(keys_received))
     for k in keys_expected:
         try:
             keys_received.index(k)
         except:
             result[1] = False
+            # result[2] = result[2] + " " + k
     
     return result
 
@@ -62,7 +65,8 @@ def post_vaccines():
         else:
             return jsonify({"error": cpf_check}), HTTPStatus.BAD_REQUEST
 
-
+        #TODO lembro de uma DEMO em que não foi assim, mas não anotei
+        #TODO preciso rever...
         data_treated = {
                 'first_shot_date': datetime.now(),
                 'second_shot_date': datetime.now()+timedelta(days = 90),
@@ -72,6 +76,7 @@ def post_vaccines():
                 'health_unit_name': data['health_unit_name'].upper()
             }
 
+        #record = VaccineCards(**data)
         record = VaccineCards(**data_treated)
 
         db.session.add(record)
